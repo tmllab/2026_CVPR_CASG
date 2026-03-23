@@ -24,8 +24,8 @@ bash download.sh
 ### 2. Prompt Preparation
 Prompt datasets are provided in the `prompts/` directory, including the raw prompts and related metadata (e.g., grounded category and GPT-evaluated category).
 
-- For T2VSafetyBench, we only keep the prompts that are relevant to our 7 safety categories for a fair comparison.
-- You can also provide your own prompts by creating a `.txt` file with one prompt per line and placing it under `prompts/{dataset_name}/{class_name}.txt`. You can then specify the dataset name and class name in the generation command (`python -m src.prompt`).
+- Follow SLD's setting, we focus on 7 harmful content categories (Hate, Harassment, Violence, Self-harm, Sexual content, Disturbing content, Illegal activities),  which are commonly used in T2I safety research. For T2VSafetyBench, we only keep the prompts that are relevant to our 7 safety categories for a fair comparison.
+- You can also provide your own prompts by creating a `.txt` file with one prompt per line and placing it under `prompts/{dataset_name}/{class_name}.txt`. You can then specify the dataset name and class name in the generation command.
 
 ### 3. Image Generation
 We support multiple T2I safety methods, including our proposed CASG and several baselines: 
@@ -43,9 +43,10 @@ bash script/casg_safree.sh
 ```
 
 Important parameters:
-- We focus on 7 harmful content categories in our paper, which are commonly used in T2I safety research (1-Hate, 2-Harassment, 3-Violence, 4-Self-harm, 5-Sexual content, 6-Disturbing content, 7-Illegal activities).  For convenience, we use category IDs in subsequent commands, where the ID definitions for safety classes follow the above ordering, and the mappings for different prompt datasets can be found in `prompts/definition.txt`.
-- keywords_level: controls the predefined harmful keyword granularity used for safeguards. We support `abstract`, `default`, and `detail`, and recommend `default`.
-- sld_strength: controls the strength of SLD. We support `medium`, `strong`, and `max`, and recommend `max` for better safety performance.
+- `classes`: controls the grounded category of the prompts used for generation. For convenience, we use category IDs in commands, where the ID definitions for different prompt datasets can be found in `prompts/definition.txt`. We support `all` (all categories) and specific category id (e.g., `1`), which can be used to evaluate the safety performance for different categories.
+- `safety_classes`: controls the predefined harmful category used for safety guidance. We support `default` (7 categories) and specific category id (e.g., `1`), where the definitions can be found in `src/utils.py`. The safety category can be different from the grounded category, which allows us to evaluate the safety misalignment degradation caused by harmful conflict.
+- `keywords_level`: controls the predefined harmful keyword granularity used for safeguards. We support `abstract`, `default`, and `detail`, and recommend `default`.
+- `sld_strength`: controls the strength of SLD. We support `medium`, `strong`, and `max`, and recommend `max` for better safety performance.
 
 ### 4. Evaluation
 Evaluation results are automatically saved under `eval_results/`. We report three metrics: 
