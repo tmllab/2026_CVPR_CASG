@@ -43,7 +43,7 @@ bash script/casg_safree.sh
 ```
 
 Important parameters:
-- We focus on 7 harmful content categories in our paper, which are commonly used in T2I safety research (`1. Hate`,`2. Harassment`,`3. Violence`,`4. Self-harm`, `5. Sexual content`, `6. Disturbing content`, `7. Illegal activities`).  For convenience, we use category IDs in subsequent commands, where the ID definitions for safety classes follow the above ordering, and the mappings for different prompt datasets can be found in `prompts/definition.txt`.
+- We focus on 7 harmful content categories in our paper, which are commonly used in T2I safety research (1-Hate, 2-Harassment, 3-Violence, 4-Self-harm, 5-Sexual content, 6-Disturbing content, 7-Illegal activities).  For convenience, we use category IDs in subsequent commands, where the ID definitions for safety classes follow the above ordering, and the mappings for different prompt datasets can be found in `prompts/definition.txt`.
 - keywords_level: controls the predefined harmful keyword granularity used for safeguards. We support `abstract`, `default`, and `detail`, and recommend `default`.
 - sld_strength: controls the strength of SLD. We support `medium`, `strong`, and `max`, and recommend `max` for better safety performance.
 
