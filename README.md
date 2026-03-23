@@ -28,7 +28,13 @@ Prompt datasets are provided in the `prompts/` directory, including the raw prom
 - You can also provide your own prompts by creating a `.txt` file with one prompt per line and placing it under `prompts/{dataset_name}/{class_name}.txt`. You can then specify the dataset name and class name in the generation command (`python -m src.prompt`).
 
 ### 3. Image Generation
-We support multiple T2I safety methods, including our proposed CASG and several baselines: `sd` (Stable Diffusion v1.5), `sld` (Safe Latent Diffusion), `gpt_sld` (GPT-based safety guidance on SLD), `casg_sld` (CASG on SLD), `safree`, and `casg_safree` (CASG on safree).
+We support multiple T2I safety methods, including our proposed CASG and several baselines: 
+- `sd` (Stable Diffusion v1.5)
+- `sld` (Safe Latent Diffusion)
+- `gpt_sld` (GPT-based safety guidance on SLD)
+- `casg_sld` (CASG on SLD)
+- `safree`
+- `casg_safree` (CASG on safree)
 
 Specify the mode and other parameters in `script/xx.sh`, then run:
 ```bash
