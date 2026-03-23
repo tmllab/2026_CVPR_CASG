@@ -58,7 +58,7 @@ bash script/eval/fid.sh
 ### Harmful Conflict Analysis
 You can enable `--vis` in the script to visualize the *Cross-Category Directional Conflict* and *Aggregated Directional Attenuation* discussed in Section 3. The figures will be saved in `fig/`.
 
-### Safety Degradation caused by Harmful Conflict
+### Safety Degradation Analysis
 You can verify the safety degradation caused by harmful conflict by modifying the combination of `--classes` and `--safety_classes` in the script. In particular, mismatched category pairs can be used to evaluate *safety misalignment degradation*, while setting `--safety_classes default` can be used to evaluate *safety averaging degradation*. The resulting safety performance can be measured with ASR. Example scripts are provided in `script/conflict` for reference.
 
 ## Citation
