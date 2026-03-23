@@ -170,18 +170,17 @@ def casg_safree_projection(
     else:
         print(f"CASG_Safree_Hybrid: Among {n_t} tokens, we remove {int(n_removed)}.")
     
-    # === Step 4. build token mask tensor (for padding alignment) ===
+    # build token mask tensor (for padding alignment)
     ones_tensor = torch.ones(max_length, device=device)
     ones_tensor[1:n_t+1] = rm_vector
     ones_tensor = ones_tensor.unsqueeze(1)
 
-    # === Step 5. split embeddings ===
     uncond_e, text_e = ie.chunk(2)
     text_e = text_e.squeeze()
     if text_e.shape[0] != n_t:
         text_e = text_e[:n_t, :]
 
-    # === Step 6. CASG selective projection for trigger tokens ===
+    # CASG selective projection for trigger tokens
     n_concepts = len(concept_subspace_projection_list)
     I = torch.eye(dim, device=device)
     distances = torch.zeros(n_t, n_concepts, device=device)
@@ -203,28 +202,24 @@ def casg_safree_projection(
         # only visualize the trigger tokens
         vis_distance_heatmap(distances[trigger_idxs, :], len(trigger_idxs), n_concepts, type='hybrid')
 
-    # === Step 7. compute the projection for all tokens on all concept subspaces ===
     text_e_T = text_e.T  # [dim, n_t]
     proj_all = torch.zeros(n_t, n_concepts, dim, device=device)
     for k, Pc in enumerate(concept_subspace_projection_list):
         I_m_Pc = I - Pc
         proj_all[:, k, :] = (I_m_Pc @ ms @ text_e_T).T  # [n_t, dim]
 
-    # === Step 8. select the projection based on winner_idx ===
+    # select the projection based on winner_idx
     gather_idx = winner_idx.view(n_t, 1, 1).expand(-1, 1, dim)
     selected_proj = proj_all.gather(dim=1, index=gather_idx).squeeze(1)  # [n_t, dim]
-
-    # === Step 9. merge the original embedding and the projected embedding based on rm_vector ===
     merged_text_e = torch.where(rm_vector.unsqueeze(1).bool(), text_e, selected_proj)
 
-    # === Step 10. padding for merged_text_e to ensure the length is max_length ===
     if merged_text_e.shape[0] < max_length:
         pad_len = max_length - merged_text_e.shape[0]
         pad = torch.zeros(pad_len, merged_text_e.shape[1],
                           device=device, dtype=merged_text_e.dtype)
         merged_text_e = torch.cat([merged_text_e, pad], dim=0)
 
-    # === Step 11. concatenate with uncond_e to form the new embeddings ===
+    
     new_embeddings = torch.cat([uncond_e, merged_text_e.unsqueeze(0)], dim=0)
     
     return new_embeddings
@@ -759,5 +754,4 @@ class SafreePipeline(StableDiffusionPipeline):
             image = self.numpy_to_pil(image)
 
         return image
-        # return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept)
-        # return StableDiffusionPipelineOutput(images=image)    
+   
