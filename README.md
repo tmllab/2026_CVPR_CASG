@@ -82,4 +82,4 @@ If you find this work useful in your research, please consider citing our paper:
 ## Acknowledgement
 Parts of this project were inspired by the following projects. We thank their contributors for their excellent work: 
 - https://github.com/ml-research/safe-latent-diffusion 
-- https://github.com/jaehong31
+- https://github.com/jaehong31/SAFREE
